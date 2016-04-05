@@ -50,7 +50,7 @@ Yes, it will be interactive and playable. If it isn't then the project was not c
 How will you know if you are successful? 
 If you include some kind of _quantitative analysis,_ that would be good.
 
-We will be successful if the game produced is lightweight enough to run at speed, and there are no bugs with the collisions or movement. The base idea of the game must also be present, and the functionality of the Ai would be nice to have as well.
+We will be successful if the game produced is lightweight enough to run at speed, and there are no bugs with the collisions or movement. The base idea of the game must also be present, and the functionality of the Ai would be nice to have as well. There is really no way to quantitatively analyze the game, as it is a user experience and not a quantitative result. The correct mixture of physics and graphic scale will produce the desired experience. 
 
 ## Architecture Diagram
 Upload the architecture diagram you made for your slide presentation to your repository, and include it in-line here.

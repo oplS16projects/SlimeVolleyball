@@ -52,7 +52,7 @@ If you include some kind of _quantitative analysis,_ that would be good.
 
 ## Architecture Diagram
 Upload the architecture diagram you made for your slide presentation to your repository, and include it in-line here.
-
+![alt tag](https://raw.githubusercontent.com/oplS16projects/SlimeVolleyball/master/architecture.jpg)
 Create several paragraphs of narrative to explain the pieces and how they interoperate.
 
 

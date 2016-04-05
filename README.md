@@ -50,10 +50,18 @@ Yes, it will be interactive and playable. If it isn't then the project was not c
 How will you know if you are successful? 
 If you include some kind of _quantitative analysis,_ that would be good.
 
+We will be successful if the game produced is lightweight enough to run at speed, and there are no bugs with the collisions or movement. The base idea of the game must also be present, and the functionality of the Ai would be nice to have as well.
+
 ## Architecture Diagram
 Upload the architecture diagram you made for your slide presentation to your repository, and include it in-line here.
 ![alt tag](https://raw.githubusercontent.com/oplS16projects/SlimeVolleyball/master/architecture.jpg)
 Create several paragraphs of narrative to explain the pieces and how they interoperate.
+
+The final product will be a User Interface accurately replicating that of the javascript game. This will be composed of the base gui and user input functionality, such as keystrokes and mouse actions, as well as the core game objects.
+
+The base gui and ui will be composed locally initially, and if we find that we have extra time, we will attempt to implement multi-machine play. The local input and menus are also included in this part. the gui will also handle the keystrokes, and report them to the objects so that the changes in position can be calculated. The gui will then access the objects to get position and graphical representation of the objects.
+
+The objects themselves will be composed of the physics functions to represent movement, the graphics to be displayed, and the optional Ai may be given the ball's location, and allowed to determine it's movements. There will be two types of objects, Slime and ball.
 
 
 
@@ -93,8 +101,8 @@ In the headings below, replace the silly names and GitHub handles with your actu
 ### Kenny Sanders @kennysandbum
 I will focus on the gui and updating the canvas. I will also work on importing images of the objects to their classes, and the movement of the objects being reflected on the screen. Once we have both finished our respective jobs, we will work together on the Ai.
 
-### Leonard Lambda @lennylambda
-will work on...
+### Cam Oliver @C4m0
+I will be in charge of the physics and interaction between classes. This includes the movement of the ball and collisions with walls and players. I will work to make general getter and setter functions for the classes, and create functional velicities and acceleration for the objects.
 
 ### Frank Functions @frankiefunk 
 Frank is team lead. Additionally, Frank will work on...   

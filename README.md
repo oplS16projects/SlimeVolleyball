@@ -6,9 +6,9 @@ Slime Volleyball is an addictive 2-D game originally coded in javascript. We aim
 
 ### Analysis
 
-We will use object orientation because each slime and the ball will need to be represented in so coherent object.
+We will use object orientation because each slime and the ball will need to be represented as an independent object.
 We will use state-modification for the status and position of the game pieces on the field.
-We will use some functional approaches for the application of gravity.
+We will use some functional approaches to determine the motion of the objects.
 
 ### Data set or other source materials
 
@@ -19,7 +19,7 @@ The base gui documentation can be found here: https://docs.racket-lang.org/gui/
 
 ### Deliverable and Demonstration 
 
-We will have a varsion of the game playable here:https://cdn.rawgit.com/marler8997/SlimeJavascript/master/SlimeVolleyballLegacy.html
+We will have a version of the game playable here:https://cdn.rawgit.com/marler8997/SlimeJavascript/master/SlimeVolleyballLegacy.html
 But written in Scheme. It will be able to be live demo'd because it is (hopefully) a playable game.
 
 The game will be fully playable, with both Ai and human players. The two player version will incorporate movement on both the wasd and arrow keys, so two players can play on one machine. The Ai will have different levels so that after beating one Ai, the player can move on to a harder difficulty.
@@ -37,9 +37,9 @@ We will be successful if the game produced is lightweight enough to run at speed
 
 The final product will be a User Interface accurately replicating that of the javascript game. This will be composed of the base gui and user input functionality, such as keystrokes and mouse actions, as well as the core game objects.
 
-The base gui and ui will be composed locally initially, and if we find that we have extra time, we will attempt to implement multi-machine play. The local input and menus are also included in this part. the gui will also handle the keystrokes, and report them to the objects so that the changes in position can be calculated. The gui will then access the objects to get position and graphical representation of the objects.
+The base gui and ui will be composed locally initially, and if we find that we have extra time, we will attempt to implement multi-machine play. For a networked approach, all functional computation would be carried out server-side, while user input and rendering graphics would be handled client-side: the UI would run locally and would report inputs to the server, the server would collect inputs from both users and calculate updated object positions/velocities accordingly, then the server would send the updated positions to the local machines which will update the graphics according to their new positions.
 
-The objects themselves will be composed of the physics functions to represent movement, the graphics to be displayed, and the optional Ai may be given the ball's location, and allowed to determine it's movements. There will be two types of objects, Slime and ball.
+The objects themselves will be composed of the physical functions to represent motion, the graphics to be displayed, and the optional Ai may be given the ball's location, and allowed to determine it's movements. There will be two types of objects, Slime and ball.
 
 ## Schedule
 Explain how you will go from proposal to finished product. 
@@ -60,4 +60,4 @@ Here each group member gets a section where they, as an individual, detail what 
 I will focus on the gui and updating the canvas. I will also work on importing images of the objects to their classes, and the movement of the objects being reflected on the screen. Once we have both finished our respective jobs, we will work together on the Ai.
 
 ### Cam Oliver @C4m0
-I will be in charge of the physics and interaction between classes. This includes the movement of the ball and collisions with walls and players. I will work to make general getter and setter functions for the classes, and create functional velicities and acceleration for the objects.
+I will be in charge of the physics and interaction between classes. This includes the movement of the ball and collisions with walls and players. I will work to make general getter and setter functions for the classes, and create functional velocities and acceleration for the objects.

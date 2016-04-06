@@ -14,13 +14,10 @@ We will use some functional approaches for the application of gravity.
 
 We will be modeling tha game off the opensource javascript version of the game which can be found here: https://github.com/marler8997/SlimeJavascript
 
-How will you convert that data into a form usable for your project? 
-
 We will translate the objects and functions into racket, and attempt to interface them with the racket base gui.
 The base gui documentation can be found here: https://docs.racket-lang.org/gui/
 
-### Deliverable and Demonstration
-Explain exactly what you'll have at the end. What will it be able to do at the live demo?
+### Deliverable and Demonstration 
 
 We will have a varsion of the game playable here:https://cdn.rawgit.com/marler8997/SlimeJavascript/master/SlimeVolleyballLegacy.html
 But written in Scheme. It will be able to be live demo'd because it is (hopefully) a playable game.
@@ -29,7 +26,7 @@ The game will be fully playable, with both Ai and human players. The two player 
 
 We can output the processes to a log, but that will probably reduce the framerate, so it will probably be removed in the final version.
 
-It will be interactive and playable. If it isn't then the project was not completed as expected.
+It will be interactive(playable). If it isn't then the project was not completed as expected.
 
 ### Evaluation of Results
 
@@ -51,11 +48,9 @@ Explain how you will go from proposal to finished product.
 Beginnings of the gui, hopefully functionality for ball and player movement.
 
 ### Second Milestone (Fri Apr 22)
-What exactly will be turned in on this day? 
 gui and ball and player movement should be complete. Ai should be somewhat complete.
 
 ### Final Presentation (last week of semester)
-What additionally will be done in the last chunk of time?
 Menu screens and options for legacy mode and slow-mo will be added if we have the time.
 
 ## Group Responsibilities

@@ -12,21 +12,15 @@
       1
       )
     ; Define overriding method to handle keyboard events
-    (define/override (on-char event)(begin
-                                      (print (send event get-key-code))
-                                      (display "\n")
+    (define/override (on-char event)
       (cond
         [(eq? (send event get-key-code) 'left)
-         ((Slime1 'set_vel) (if (= 0 (car (Slime1 'get_vel))) -4 0) (cdr (Slime1 'get_vel)) )]
+         ((Slime1 'set_pos) (- (car (Slime1 'get_pos)) 4) (cdr (Slime1 'get_pos)))]
         [(eq? (send event get-key-code) 'right)
-         ((Slime1 'set_vel) (if (= 0 (car (Slime1 'get_vel))) 4 0) (cdr (Slime1 'get_vel)) )]
+         ((Slime1 'set_pos) (+ (car (Slime1 'get_pos)) 4) (cdr (Slime1 'get_pos)))]
         [(eq? (send event get-key-code) #\space)
-         (if (= windowYbound (cdr (Slime1 'get_pos))) ((Slime1 'set_vel) (car (Slime1 'get_vel)) -70) (values))]
-        [(eq? (send event get-key-code) 'release)
-         (cond ((eq? (send event get-key-release-code) 'left) ((Slime1 'set_vel) 0 (cdr (Slime1 'get_vel))))
-               ((eq? (send event get-key-release-code) 'right) ((Slime1 'set_vel) 0 (cdr (Slime1 'get_vel)))))]
-               
-      )  )
+         (if (= windowYbound (cdr (Slime1 'get_pos))) ((Slime1 'set_vel) 0 -70) 0)]
+      )  
       ;(define (char-label (send event get-key-code)))
     )
     ; Call the superclass init, passing on all init args
@@ -52,8 +46,10 @@
 
 (define (loop)
   (Slime1 'move) ;moves the slime based on velocity and acceleration
+  ;(send mycanvas set-canvas-background (make-object color% 0 0 190 .9))
   (send mycanvas on-paint)
   (sleep/yield 0.02)
   (loop))
 
+;(send mycanvas set-canvas-background (make-object color% 0 0 190 .9))
 (loop)

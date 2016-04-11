@@ -2,7 +2,8 @@
 (require racket/gui/base)
 (require (file "classes.rkt"))
 
-(define frame (new frame% [label "Slime Volleyball"] [width windowXbound] [height windowYbound]))
+
+(define frame (new frame% [label "Slime Volleyball"] [width windowXbound] [height (+ windowYbound 100)]))
 
 
 (define my-canvas%
@@ -41,11 +42,6 @@
     ; Call the superclass init, passing on all init args
     (super-new)))
 
-(define bitmap1 (make-object bitmap% 100 100))
-(send bitmap1 load-file "greenslime.png")
-(define bitmap2 (make-object bitmap% 100 100))
-(send bitmap2 load-file "redslime.png")
-
 (define mycanvas (new my-canvas%
                     [parent frame]
                     [paint-callback
@@ -53,9 +49,19 @@
                        
                        
                        ;(send dc set-background (make-object color% 0 0 155 .99))
+                       
+                       (send dc clear)
+
+
+                       (send dc set-pen (make-object color% 0 0 0 .99) 3 'solid)
+                       (send dc set-brush (make-object color% 0 0 0 0) 'solid)
+                       
+                       
+                       (send dc set-pen (make-object color% 112 138 144 .99) 1 'solid)
+                       (send dc set-brush (make-object color% 112 138 144 .99) 'solid)
+                       (send dc draw-rectangle 0 windowYbound windowXbound (+ windowYbound 100))
                        (send dc set-pen "white" 1 'solid)
                        (send dc set-brush "white" 'solid)
-                       (send dc clear)
                        (send dc draw-rectangle (- (/ windowXbound 2) 3) (- windowYbound 70) 6 70)
                        (send dc draw-bitmap bitmap1 (car (Slime1 'get_pos)) (cdr (Slime1 'get_pos)))
                        (send dc draw-bitmap bitmap2 (car (Slime2 'get_pos)) (cdr (Slime2 'get_pos)))

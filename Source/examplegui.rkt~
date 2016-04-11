@@ -25,39 +25,38 @@
       ;(send msg set-label "Canvas keyboard")
       (cond
         [(eq? (send event get-key-code) 'left) ;(set! x1 (remainder (- x1 4) 500))]
-         ((slime_sample 'set_pos) (- (car (slime_sample 'get_pos)) 8) (cdr (slime_sample 'get_pos)))]
+         ((slime_sample 'set_pos) (- (car (slime_sample 'get_pos)) 4) (cdr (slime_sample 'get_pos)))]
         ;((obj 'set_pos) x y) sets x y coords (obj 'get_pos) returns a cons cell with '(x.y) coords (window boundaries are checked in the set_pos function)
         
         [(eq? (send event get-key-code) 'right) ;(set! x1 (remainder (+ x1 4) 500))]
-         ((slime_sample 'set_pos) (+ (car (slime_sample 'get_pos)) 8) (cdr (slime_sample 'get_pos)))]
+         ((slime_sample 'set_pos) (+ (car (slime_sample 'get_pos)) 4) (cdr (slime_sample 'get_pos)))]
         [(eq? (send event get-key-code) #\space) ;(set! y1 (remainder (+ y1 4) 500))] ;;; changing jump to y - 4 because coordinate system is inverted (0 at top)
-         ((slime_sample 'set_pos) (car (slime_sample 'get_pos)) (- (cdr (slime_sample 'get_pos)) 8))]
+         ((slime_sample 'set_pos) (car (slime_sample 'get_pos)) (- (cdr (slime_sample 'get_pos)) 4))]
       )  
       ;(define (char-label (send event get-key-code)))
     )
     ; Call the superclass init, passing on all init args
     (super-new)))
 
-(define bitmap1 (make-object bitmap% 136 68))
-(send bitmap1 load-file "greenslime.png")
+(define bitmap1 (make-object bitmap% 200 200))
+(send bitmap1 load-file "semicircle.png")
 
 (define canvas (new my-canvas% [parent frame]
                     [paint-callback
                      (lambda (c dc)
+                       
+                       (send dc set-pen "red" 4 'solid)
                        (send dc clear)
-                       ;(send dc draw-rectangle 0 0 100 30)
                        (send dc draw-bitmap bitmap1 (car (slime_sample 'get_pos)) (cdr (slime_sample 'get_pos)));x1 y1)
                        ;(send dc draw-line x1 250 x1 250)
                        )]))
-(send canvas set-canvas-background (make-object color% 0 0 155 .99))
 (send frame show #t)
 
 
 (define (loop)
-  (send canvas set-canvas-background (make-object color% 0 0 155 .99))
   (send canvas on-paint)
   ;  (set! x1 (remainder (+ x1 1) 500))
-  (sleep/yield 0.002)
+  (sleep/yield 0.02)
   (loop))
 
 (loop)

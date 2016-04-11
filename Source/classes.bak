@@ -15,36 +15,27 @@
     (cond ((eq? op 'get_pos) (cons pos_x pos_y))
           ((eq? op 'get_vel) (cons vel_x vel_y))
           ((eq? op 'set_pos) (lambda (x y)
-                               (if (and (> x left_bound) (< x right_bound))
+                               (if (and (> x 0) (< x windowXbound))
                                    (set! pos_x x)
                                    (values));does nothing
                                (if (and (> y 0) (< y windowYbound))
                                    (set! pos_y y)
                                    (values))))
-                                  ; (if (< y windowYbound) (set! pos_y windowYbound) (values )))))
           ((eq? op 'set_vel) (lambda (x y)
                                (set! vel_x x)
                                (set! vel_y y)))
           ((eq? op 'move) (begin
                             ((lambda (x y)
-                               (if (and (> x left_bound) (< x right_bound))
+                               (if (and (> x 0) (< x windowXbound))
                                    (set! pos_x x)
                                    (values));does nothing
                                (if (and (> y 0) (< y windowYbound))
                                    (set! pos_y y)
-                                   (if (>= y windowYbound) (set! pos_y windowYbound) (values ))))
-                             (+ pos_x vel_x) (+ pos_y vel_y)))
-                             
-                            ;(if (and (>= windowYbound (+ pos_y vel_y)) (<= 0 (+ pos_x vel_x)))
-                             ;   (+ pos_y vel_y)
-                              ;  (+ pos_y 0))
-                            ;(if (and (>= windowXbound (+ pos_x vel_x)) (<= 0 (+ pos_x vel_x)))
-                             ;   (+ pos_x vel_x)
-                              ;  (+ pos_x 0)))
-                            
-                            (if (< pos_y windowYbound) (set! vel_y (+ vel_y 6)) (set! vel_y 0)
-                            )) ;gravity
-          (else (error "Unknown op: " op))))  dispatch)
+                                   (values)))
+                             (+ pos_x vel_x) (+ pos_y vel_y))
+                            (set! vel_y (+ vel_y 6)))) ;gravity
+          (else (error "Unknown op: " op))))
+  dispatch)
 
 ;defines ball as an object with a radius of 30 px and starting position above player 1
 (define ball (make_object (/ windowXbound 4) (/ windowYbound 4) 0 0 30 0 windowXbound))

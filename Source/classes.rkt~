@@ -14,7 +14,6 @@
   (define (dispatch op)
     (cond ((eq? op 'get_pos) (cons pos_x pos_y))
           ((eq? op 'get_vel) (cons vel_x vel_y))
-          ((eq? op 'get_rad) radius)
           ((eq? op 'set_pos) (lambda (x y)
                                (if (and (> x left_bound) (< x right_bound))
                                    (set! pos_x x)
@@ -45,9 +44,6 @@
                             
                             (if (< pos_y windowYbound) (set! vel_y (+ vel_y 6)) (set! vel_y 0)
                             )) ;gravity
-          ((eq? op 'collision) (lambda (Slime1)  (if (<= (sqrt (+ (expt (- (+ (car (Slime1 'get_pos)) (Slime1 'get_rad)) (+ pos_x radius)) 2) (expt (- (+ (cdr (Slime1 'get_pos)) (Slime1 'get_rad)) (+ pos_y radius)) 2))) (+ radius (Slime1 'get_rad)))
-                                                            (print "COLLISION")
-                                                            #f)))
           (else (error "Unknown op: " op))))  dispatch)
 
 ;defines ball as an object with a radius of 30 px and starting position above player 1

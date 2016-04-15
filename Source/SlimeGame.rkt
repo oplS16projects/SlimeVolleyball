@@ -4,7 +4,10 @@
 
 
 (define frame (new frame% [label "Slime Volleyball"] [width windowXbound] [height (+ windowYbound 100)]))
-
+(define bitmap1 (make-object bitmap% 100 100))
+(send bitmap1 load-file "greenslime.png")
+(define bitmap2 (make-object bitmap% 100 100))
+(send bitmap2 load-file "redslime.png")
 
 (define my-canvas%
   (class canvas% ; The base class is canvas%
@@ -23,7 +26,7 @@
         [(eq? (send event get-key-code) 'right)
          ((Slime1 'set_vel) (if (= 0 (car (Slime1 'get_vel))) 4 0) (cdr (Slime1 'get_vel)) )]
         [(eq? (send event get-key-code) 'up)
-         (if (= slimebot (cdr (Slime1 'get_pos))) ((Slime1 'set_vel) (car (Slime1 'get_vel)) -35) (values))]
+         (if (= (- windowYbound 68) (cdr (Slime1 'get_pos))) ((Slime1 'set_vel) (car (Slime1 'get_vel)) -35) (values))]
         [(eq? (send event get-key-code) 'release)
          (cond ((eq? (send event get-key-release-code) 'left) ((Slime1 'set_vel) 0 (cdr (Slime1 'get_vel))) )
                ((eq? (send event get-key-release-code) 'right) ((Slime1 'set_vel) 0 (cdr (Slime1 'get_vel))) )
@@ -35,7 +38,7 @@
         [(eq? (send event get-key-code) #\d)
          ((Slime2 'set_vel) (if (= 0 (car (Slime2 'get_vel))) 4 0) (cdr (Slime2 'get_vel)) )]
         [(eq? (send event get-key-code) #\w)
-         (if (= slimebot (cdr (Slime2 'get_pos))) ((Slime2 'set_vel) (car (Slime2 'get_vel)) -70) (values))]
+         (if (= (- windowYbound 68) (cdr (Slime2 'get_pos))) ((Slime2 'set_vel) (car (Slime2 'get_vel)) -35) (values))]
       )  )
       ;(define (char-label (send event get-key-code)))
     )

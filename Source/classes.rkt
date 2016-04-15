@@ -43,8 +43,8 @@
                              ;   (+ pos_x vel_x)
                               ;  (+ pos_x 0)))
                             
-                            (if (< pos_y windowYbound) (set! vel_y (+ vel_y 6)) (set! vel_y 0)
-                            )) ;gravity
+                            (if (<= pos_y (- windowYbound 68)) (set! vel_y (+ vel_y 6)) (begin (set! vel_y 0) (set! pos_y (- windowYbound 68))
+                            ))) ;gravity
           ((eq? op 'collision) (lambda (Slime1)  (if (<= (sqrt (+ (expt (- (+ (car (Slime1 'get_pos)) (Slime1 'get_rad)) (+ pos_x radius)) 2) (expt (- (+ (cdr (Slime1 'get_pos)) (Slime1 'get_rad)) (+ pos_y radius)) 2))) (+ radius (Slime1 'get_rad)))
                                                             (print "COLLISION")
                                                             #f)))
@@ -55,5 +55,5 @@
 ;slimes are defined as circular objects with radius 100, they are placed at the bottom of the viewing window,
 ;so the bottom half of the sphere gets clipped (this means when you jump there is actually a circle moving
 ;rather than a half circle, but the ball will never hit the lower half of the circle and this is easier to implement.
-(define Slime1 (make_object (/ windowXbound 4) (- windowYbound 200) 0 0 100 0 (- (/ windowXbound 2) 2)))
-(define Slime2 (make_object (* 3(/ windowXbound 4)) windowYbound 0 0 100 (+ (/ windowXbound 2) 2) windowXbound))
+(define Slime1 (make_object (/ windowXbound 4) (- windowYbound 200) 0 0 100 0 (- (/ windowXbound 2) 136)))
+(define Slime2 (make_object (* 3(/ windowXbound 4)) (- windowYbound 68)0 0 100 (+ (/ windowXbound 2) 2) (- windowXbound 136)))

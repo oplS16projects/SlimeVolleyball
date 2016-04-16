@@ -10,7 +10,7 @@ As of Fri Apr 15:
 We have movement mostly down, and just need to figue out why it's stuttering when the left and right keys are held.
 Game is currently two player, with WASD functioning for player two.
 Gravity is functional, and ball Y directional movement and collisions are working.
-Graphics are in the works, and we have slime templates now so it is fairly simply to create new ones. the main challenge is keeping screen updates to a minimum, as the base/gui begins to cause flicker.
+Graphics are in the works, and we have slime templates now so it is fairly simply to create new ones. The main challenge is keeping screen updates to a minimum, as the base/gui begins to cause flicker.
 Hopefully collisions and the kinks with the gui and keyboard sutter will be solved soon, and we can begin on Ai and scorekeeping/gameplay.
 
 

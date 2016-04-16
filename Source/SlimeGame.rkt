@@ -39,6 +39,7 @@
          ((Slime2 'set_vel) (if (= 0 (car (Slime2 'get_vel))) 4 0) (cdr (Slime2 'get_vel)) )]
         [(eq? (send event get-key-code) #\w)
          (if (= (- windowYbound 68) (cdr (Slime2 'get_pos))) ((Slime2 'set_vel) (car (Slime2 'get_vel)) -35) (values))]
+
       )  )
       ;(define (char-label (send event get-key-code)))
     )
@@ -78,6 +79,7 @@
 (define (loop)
   (Slime1 'move) ;moves the slime based on velocity and acceleration
   (Slime2 'move) ;moves the slime based on velocity and acceleration
+  ((ball 'collision) Slime1)
   (ball 'move)
   (send mycanvas on-paint)
   (sleep/yield 0.02)

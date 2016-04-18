@@ -72,7 +72,7 @@
                        (send dc set-pen (make-object color% 255 255 0 .99) 1 'solid)
                        (send dc set-brush (make-object color% 255 255 0 .99) 'solid)
                        (send dc draw-ellipse (car (ball 'get_pos)) (cdr (ball 'get_pos)) 36 36))]))
-(send (send mycanvas get-dc) set-background (make-object color% 0 0 155 .99))
+(send (send mycanvas get-dc) set-background (make-object color% 0 0 0 .99))
 (send frame show #t)
 
 

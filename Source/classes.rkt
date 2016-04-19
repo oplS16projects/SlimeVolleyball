@@ -54,21 +54,39 @@
                              ;   (+ pos_x vel_x)
                               ;  (+ pos_x 0)))
                             
-                            (if (<= pos_y (- windowYbound 68)) (set! vel_y (+ vel_y 2)) (begin (set! vel_y 0) (set! pos_y (- windowYbound 68))
+                            (if (<= pos_y bottom_bound) (set! vel_y (+ vel_y 2)) (begin (set! vel_y 0) (set! pos_y bottom_bound)
                             ))) ;gravity
 
-          ((eq? op 'collision) (lambda (Slime1)  (if (<= (distance Slime1 ball) (+ radius (Slime1 'get_rad)))
-                                               (begin (set! vel_y (* -25 (/ (- (+ (cdr (Slime1 'get_pos)) (Slime1 'get_rad)) (+ (cdr (ball 'get_pos)) (ball 'get_rad))) (distance Slime1 ball))))
-                                                      (set! vel_x (* -25 (/ (- (+ (car (Slime1 'get_pos)) (Slime1 'get_rad)) (+ (car (ball 'get_pos)) (ball 'get_rad))) (distance Slime1 ball)))))
-                                               #f)))
-    (else (error "Unknown op: " op))))
-    dispatch)
+          ((eq? op 'collision) (lambda (Slime)  (if (<= (distance Slime ball) (+ radius (Slime 'get_rad)))
+                                                     (begin (set! vel_y (* -25 (/ (- (+ (cdr (Slime 'get_pos)) (Slime 'get_rad)) (+ (cdr (ball 'get_pos)) (ball 'get_rad))) (distance Slime ball))))
+                                                            (set! vel_x (* -25 (/ (- (+ (car (Slime 'get_pos)) (Slime 'get_rad)) (+ (car (ball 'get_pos)) (ball 'get_rad))) (distance Slime ball)))))
+                                                     #f)))
+          (else (error "Unknown op: " op))))
+  dispatch)
 
 ;defines ball as an object with a radius of 18 px and starting position above player 1
+
+       ;   ((eq? op 'collision) (lambda (slime) (let ((x (car (slime 'get_pos)))
+        ;                                             (y (+ (cdr (slime 'get_pos)) (slime 'get_rad)))
+         ;                                            (r (slime 'get_rad)))
+          ;                                       (if (and (>= (+ pos_x (* 2 radius)) x) (<= pos_x (+ x (* 2 r))))
+           ;                                          (if (>= (+ pos_y (* 2 radius)) (- y (- r (abs (- (+ x r) pos_x)))))
+            ;                                             (let ((x (- pos_x (+ x r)))
+             ;                                                  (y (- r x)))
+              ;;                                             (set! vel_x (/ x 5))
+                ;                                           (set! vel_y (/ y 5)))
+                 ;                                        #f)
+                  ;                                   #f))))
+
+;    (else (error "Unknown op: " op))))
+ ;   dispatch)
+
+;defines ball as an object with a radius of 30 px and starting position above player 1
+;(define ball (make_object (+ (/ windowXbound 4) 50) (/ windowYbound 4) 0 0 18 0 windowXbound (- windowYbound 36)))
 ;slimes are defined as circular objects with radius 100, they are placed at the bottom of the viewing window,
 ;so the bottom half of the sphere gets clipped (this means when you jump there is actually a circle moving
 ;rather than a half circle, but the ball will never hit the lower half of the circle and this is easier to implement.
 (define Slime1 (make_object (/ windowXbound 4) (- windowYbound 68) 0 0 68 0 (- (/ windowXbound 2) 138) (- windowYbound 68)))
 (define Slime2 (make_object (* 3(/ windowXbound 4)) (- windowYbound 68) 0 68 100 (+ (/ windowXbound 2) 2) (- windowXbound 136) (- windowYbound 68)))
 
-(define ball (make_object (- (+ (car (Slime1 'get_pos)) (Slime1 'get_rad)) 18) (/ windowYbound 4) 0 0 18 0 windowXbound (- windowYbound 0)))
+(define ball (make_object (- (+ (car (Slime1 'get_pos)) (Slime1 'get_rad)) 18) (/ windowYbound 4) 0 0 18 0 windowXbound (- windowYbound 18)))

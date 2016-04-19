@@ -93,7 +93,9 @@
   ((ball 'collision) Slime2)
   (ball 'move)
   (send mycanvas on-paint)
-  (sleep/yield 0.01)
-  (loop))
+  (sleep/yield 0.02)
+  (if (equal? (cdr (ball 'get_pos)) (- windowYbound 18))
+      'done
+      (loop)))
 
 (loop)

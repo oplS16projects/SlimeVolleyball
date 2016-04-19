@@ -12,10 +12,10 @@
 (define my-canvas%
   (class canvas% ; The base class is canvas%
     ; Define overriding method to handle mouse events
-    (define/override (on-event event)
+    ;;(define/override (on-event event)
       ;(send msg set-label "Canvas mouse")
-      1
-      )
+      ;1
+      ;)
     ; Define overriding method to handle keyboard events
     (define/override (on-char event)(begin
                                       (print (send event get-key-code))
@@ -69,7 +69,16 @@
                        (send dc draw-rectangle (- (/ windowXbound 2) 3) (- windowYbound 70) 6 70)
                        (send dc draw-bitmap bitmap1 (car (Slime1 'get_pos)) (cdr (Slime1 'get_pos)))
                        (send dc draw-bitmap bitmap2 (car (Slime2 'get_pos)) (cdr (Slime2 'get_pos)))
-                       (send dc set-pen (make-object color% 255 255 0 .99) 1 'solid)
+                       (send dc set-pen (make-object color% 0 0 0 .99) 9 'solid)
+                       (send dc draw-line
+                             (+ (car (Slime1 'get_pos)) 114 (* -5 (/ (- (+ (car (Slime1 'get_pos)) (Slime1 'get_rad)) (+ (car (ball 'get_pos)) (ball 'get_rad))) (distance Slime1 ball))))
+                             
+                             (+ (cdr (Slime1 'get_pos)) 40 (* -5 (/ (- (+ (cdr (Slime1 'get_pos)) (Slime1 'get_rad)) (+ (cdr (ball 'get_pos)) (ball 'get_rad))) (distance Slime1 ball))))
+                             
+                             (+ (car (Slime1 'get_pos)) 114 (* -5 (/ (- (+ (car (Slime1 'get_pos)) (Slime1 'get_rad)) (+ (car (ball 'get_pos)) (ball 'get_rad))) (distance Slime1 ball))))
+                             
+                             (+ (cdr (Slime1 'get_pos)) 40 (* -5 (/ (- (+ (cdr (Slime1 'get_pos)) (Slime1 'get_rad)) (+ (cdr (ball 'get_pos)) (ball 'get_rad))) (distance Slime1 ball)))))
+                                (send dc set-pen (make-object color% 255 255 0 .99) 1 'solid)
                        (send dc set-brush (make-object color% 255 255 0 .99) 'solid)
                        (send dc draw-ellipse (car (ball 'get_pos)) (cdr (ball 'get_pos)) 36 36))]))
 (send (send mycanvas get-dc) set-background (make-object color% 0 0 155 .99))
@@ -79,10 +88,12 @@
 (define (loop)
   (Slime1 'move) ;moves the slime based on velocity and acceleration
   (Slime2 'move) ;moves the slime based on velocity and acceleration
+  ;(print (distance Slime1 ball))
   ((ball 'collision) Slime1)
+  ((ball 'collision) Slime2)
   (ball 'move)
   (send mycanvas on-paint)
-  (sleep/yield 0.02)
+  (sleep/yield 0.01)
   (loop))
 
 (loop)

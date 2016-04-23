@@ -18,42 +18,6 @@
                          (begin (set! oneplayer #f) (send dialog show #f) (send gamecanvas focus) (gameloop)))])
 (define oneplayer #t)
 
-;(define begincanvas (new begin-canvas%
- ;                   [parent frame]
-  ;                  [paint-callback
-   ;                  (lambda (canvas dc)
-    ;                   
-     ;                  
-      ;                 (send dc clear))]))
-                       
-                       
-                       
-;(send (send begincanvas get-dc) set-background (make-object color% 0 0 0 .99));155
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 (define bitmap1 (make-object bitmap% 100 100))
 (send bitmap1 load-file "greenslime.png")
@@ -67,12 +31,8 @@
 (define background (make-object bitmap% 100 100))
 (send background load-file "background.png")
 (define game-canvas%
-  (class canvas% ; The base class is canvas%
-    ; Define overriding method to handle mouse events
-    ;;(define/override (on-event event)
-      ;(send msg set-label "Canvas mouse")
-      ;1
-      ;)
+  (class canvas%
+    
     ; Define overriding method to handle keyboard events
     (define/override (on-char event)(begin
                                       (print (send event get-key-code))
@@ -172,8 +132,9 @@
   ((ball 'collision) Slime1)
   ((ball 'collision) Slime2)
   (ball 'move)
+  (ball 'wall)
   (send gamecanvas on-paint)
-  (sleep/yield 0.015)
+  (sleep/yield 0.008)
   (if (equal? (cdr (ball 'get_pos)) (- windowYbound 18))
       (begin 
         (if (< ( + (ball 'get_rad) (car (ball 'get_pos))) (/ windowXbound 2) )

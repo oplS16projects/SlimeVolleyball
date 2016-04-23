@@ -5,6 +5,11 @@
 Slime Volleyball is an addictive 2-D game originally coded in javascript. We aim to write it in Racket so that it may be played offline. 
 
 ###Updates
+As of Fri Apr 22:
+Working out the final kinks in movement. Stutter has been fixed, and movement is starting to feel like the original game. 
+We have added menu functionality for 1 or 2 player mode, and will hopefully have time to add the AI so that 1 player can
+acutally be played. The scoreboard is functional, and a small message is currently played describng who earned a point, 
+and will be enlargedand centered soon. The collisions are almost done, with the only remaining ones to be the walls and net.We have added a single bitmap background to reduce calls to draw as much as possible. The slime's eyes were added earlier in the week, and are fully operatonal.
 
 As of Fri Apr 15:
 We have movement mostly down, and just need to figue out why it's stuttering when the left and right keys are held.
@@ -13,8 +18,15 @@ Gravity is functional, and ball Y directional movement and collisions are workin
 Graphics are in the works, and we have slime templates now so it is fairly simply to create new ones. The main challenge is keeping screen updates to a minimum, as the base/gui begins to cause flicker.
 Hopefully collisions and the kinks with the gui and keyboard sutter will be solved soon, and we can begin on Ai and scorekeeping/gameplay.
 
+### Usage
 
-
+You need to have racket installed. Look here for further details -> https://docs.racket-lang.org/getting-started/
+In the SlimeVolleyball directory, open /Source/SlimeGame.rkt using racket or it's gui interace Drracket.
+On linux, this can be achieved easily by running
+```
+racket SlimeGame.rkt
+```
+in the Source directory.
 
 ### Analysis
 

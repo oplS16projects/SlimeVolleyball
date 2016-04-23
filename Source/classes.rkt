@@ -48,40 +48,27 @@
                                    (set! pos_y y)
                                    (if (>= y bottom_bound) (set! pos_y bottom_bound) (values ))))
                              (+ pos_x vel_x) (+ pos_y vel_y)))
-                             
-                            ;(if (and (>= windowYbound (+ pos_y vel_y)) (<= 0 (+ pos_x vel_x)))
-                             ;   (+ pos_y vel_y)
-                              ;  (+ pos_y 0))
-                            ;(if (and (>= windowXbound (+ pos_x vel_x)) (<= 0 (+ pos_x vel_x)))
-                             ;   (+ pos_x vel_x)
-                              ;  (+ pos_x 0)))
-                          ;Debugging:: (begin (display "position: ") (display pos_y ) (display ", bottom_bound: ") (display bottom_bound) (display "\n") 
-                            (if (< pos_y bottom_bound) (set! vel_y (+ vel_y 1))  (begin (set! pos_y bottom_bound) (if jump (set! vel_y -20) (set! vel_y 0))
+         
+                            (if (< pos_y bottom_bound) (set! vel_y (+ vel_y 0.8))  (begin (set! pos_y bottom_bound) (if jump (set! vel_y -20) (set! vel_y 0))
                             ))) ;gravity
 
           ((eq? op 'collision) (lambda (Slime)  (if (<= (distance Slime ball) (+ radius (Slime 'get_rad)))
                                                      (begin (set! vel_y (* -20 (/ (- (+ (cdr (Slime 'get_pos)) (Slime 'get_rad)) (+ (cdr (ball 'get_pos)) (ball 'get_rad))) (distance Slime ball))))
                                                             (set! vel_x (* -20 (/ (- (+ (car (Slime 'get_pos)) (Slime 'get_rad)) (+ (car (ball 'get_pos)) (ball 'get_rad))) (distance Slime ball)))))
                                                      #f)))
+          ((eq? op 'wall) (if (< (+ pos_x vel_x) left_bound)
+                              (begin
+                                (set! vel_x (- vel_x))
+                                (set! pos_x left_bound))
+                                (if (> (+ pos_x vel_x) (- right_bound 36))
+                                    (begin
+                                      (set! vel_x (- vel_x))
+                                      (set! pos_x (- right_bound 36)))
+                                    (values))))
           (else (error "Unknown op: " op))))
   dispatch)
 
-;defines ball as an object with a radius of 18 px and starting position above player 1
 
-       ;   ((eq? op 'collision) (lambda (slime) (let ((x (car (slime 'get_pos)))
-        ;                                             (y (+ (cdr (slime 'get_pos)) (slime 'get_rad)))
-         ;                                            (r (slime 'get_rad)))
-          ;                                       (if (and (>= (+ pos_x (* 2 radius)) x) (<= pos_x (+ x (* 2 r))))
-           ;                                          (if (>= (+ pos_y (* 2 radius)) (- y (- r (abs (- (+ x r) pos_x)))))
-            ;                                             (let ((x (- pos_x (+ x r)))
-             ;                                                  (y (- r x)))
-              ;;                                             (set! vel_x (/ x 5))
-                ;                                           (set! vel_y (/ y 5)))
-                 ;                                        #f)
-                  ;                                   #f))))
-
-;    (else (error "Unknown op: " op))))
- ;   dispatch)
 
 ;defines ball as an object with a radius of 30 px and starting position above player 1
 ;(define ball (make_object (+ (/ windowXbound 4) 50) (/ windowYbound 4) 0 0 18 0 windowXbound (- windowYbound 36)))

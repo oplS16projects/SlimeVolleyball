@@ -24,9 +24,9 @@ You need to have racket installed. Look here for further details -> https://docs
 In the SlimeVolleyball directory, open /Source/SlimeGame.rkt using racket or it's gui interace Drracket.
 On linux, this can be achieved easily by running
 ```
-racket /Source/SlimeGame.rkt
+racket SlimeGame.rkt
 ```
-in the SlimeVolleyball directory.
+in the Source directory.
 
 ### Analysis
 

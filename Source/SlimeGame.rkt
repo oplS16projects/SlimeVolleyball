@@ -3,6 +3,7 @@
 (require (file "classes.rkt"))
 (define player1score 0)
 (define player2score 0)
+(define lastToscore #f) ;false if player 1, true if player 2
 
 (define frame (new frame% [label "Slime Volleyball"] [width windowXbound] [height (+ windowYbound 100)]))
 (define dialog (instantiate dialog% ("Select Game Mode")))
@@ -78,9 +79,9 @@
                                       (display "\n")
       (cond
         [(and (= 0 (car (Slime1 'get_vel))) (eq? (send event get-key-code) #\a ))
-         ((Slime1 'set_vel) -4 (cdr (Slime1 'get_vel)) )]
+         ((Slime1 'set_vel) -6 (cdr (Slime1 'get_vel)) )]
         [(and (= 0 (car (Slime1 'get_vel))) (eq? (send event get-key-code) #\d))
-         ((Slime1 'set_vel) 4 (cdr (Slime1 'get_vel)) )]
+         ((Slime1 'set_vel) 6 (cdr (Slime1 'get_vel)) )]
         [(and (not (Slime1 'get_jump)) (eq? (send event get-key-code) #\w)) ((Slime1 'set_jump) #t)] 
         [(eq? (send event get-key-code) 'release)
          (cond ((eq? (send event get-key-release-code) 'left) ((Slime2 'set_vel) 0 (cdr (Slime2 'get_vel))) )
@@ -91,13 +92,13 @@
                ((eq? (send event get-key-release-code) 'up) ((Slime2 'set_jump) #f)))]
 
         [(and (= 0 (car (Slime2 'get_vel))) (eq? (send event get-key-code) 'left))
-         ((Slime2 'set_vel) -4 (cdr (Slime2 'get_vel)) )]
+         ((Slime2 'set_vel) -6 (cdr (Slime2 'get_vel)) )]
         [(and (= 0 (car (Slime2 'get_vel))) (eq? (send event get-key-code) 'right))
-         ((Slime2 'set_vel) 4 (cdr (Slime2 'get_vel)) )]
+         ((Slime2 'set_vel) 6 (cdr (Slime2 'get_vel)) )]
         [(and (not (Slime2 'get_jump)) (eq? (send event get-key-code) 'up)) ((Slime2 'set_jump) #t)] 
-        [(eq? (send event get-key-code) #\space)
+        [(and (= (cdr (ball 'get_pos)) (- windowYbound 18)) (eq? (send event get-key-code) #\space))
          (begin ((Slime1 'set_pos) (/ windowXbound 4) (- windowYbound 68)) ((Slime2 'set_pos) (* 3(/ windowXbound 4)) (- windowYbound 68))
-                ((ball 'set_vel) 0 0) ((ball 'set_pos) (- (+ (car (Slime1 'get_pos)) (Slime1 'get_rad)) 18) (/ windowYbound 4)) (gameloop))]
+                ((ball 'set_vel) 0 0) ((ball 'set_pos) (- (+ (car ((if lastToscore Slime2 Slime1) 'get_pos)) ((if lastToscore Slime2 Slime1) 'get_rad)) 18) (/ windowYbound 4)) (gameloop))]
 
       )  )
       ;(define (char-label (send event get-key-code)))
@@ -150,11 +151,11 @@
                        (send dc set-brush (make-object color% 255 255 0 .99) 'solid)
                        (send dc draw-ellipse (car (ball 'get_pos)) (cdr (ball 'get_pos)) 36 36)
                        (define (iter dc i score1 score2)
-                         (if (= 8 i)
+                         (if (= 7 i)
                              0
                              (begin
-                               (if (< i score1) (send dc draw-ellipse (+ 24 (* 60 i)) 24 27 27) #f)
-                               (if (< i score2) (send dc draw-ellipse (- (- windowXbound 51)  (* 60 i)) 24 27 27) #f)
+                               (if (< i score1) (send dc draw-ellipse (+ 25 (* 60 i)) 24 27 27) #f)
+                               (if (< i score2) (send dc draw-ellipse (- (- windowXbound 50)  (* 60 i)) 25 27 27) #f)
                                (iter dc (+ i 1) score1 score2)
                              ))
                          )
@@ -174,9 +175,20 @@
   (send gamecanvas on-paint)
   (sleep/yield 0.015)
   (if (equal? (cdr (ball 'get_pos)) (- windowYbound 18))
-      (if (< ( + (ball 'get_rad) (car (ball 'get_pos))) (/ windowXbound 2) )
-          (begin (set! player2score (+ 1 player2score)) (send (send gamecanvas get-dc) draw-text "Player 2 scores!" 0 0))
-          (begin (set! player1score (+ 1 player1score)) (send (send gamecanvas get-dc) draw-text "Player 1 scores!" 0 0)))
+      (begin 
+        (if (< ( + (ball 'get_rad) (car (ball 'get_pos))) (/ windowXbound 2) )
+            (begin (set! player2score (+ 1 player2score)) (set! lastToscore #t)
+                   (send (send gamecanvas get-dc) set-font (make-object font% 40 'default))
+                   (send (send gamecanvas get-dc) set-text-foreground (make-object color% 255 255 255 .99))
+                   (send (send gamecanvas get-dc) draw-text "Player 2 Scores!" 300 100)
+                   (send (send gamecanvas get-dc) set-font (make-object font% 20 'default))
+                   (send (send gamecanvas get-dc) draw-text "Press Space to Continue" 350 160))
+            (begin (set! player1score (+ 1 player1score)) (set! lastToscore #f)
+                   (send (send gamecanvas get-dc) set-font (make-object font% 40 'default))
+                   (send (send gamecanvas get-dc) set-text-foreground (make-object color% 255 255 255 .99))
+                   (send (send gamecanvas get-dc) draw-text "Player 1 Scores!" 300 100)
+                   (send (send gamecanvas get-dc) set-font (make-object font% 20 'default))
+                   (send (send gamecanvas get-dc) draw-text "Press Space to Continue" 350 160))))
       (gameloop)))
 
 (send dialog show #t)

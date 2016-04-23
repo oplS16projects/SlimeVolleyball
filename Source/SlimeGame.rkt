@@ -1,71 +1,15 @@
 #lang racket
 (require racket/gui/base)
 (require (file "classes.rkt"))
-(define player1score 0)
-(define player2score 0)
+
 
 (define frame (new frame% [label "Slime Volleyball"] [width windowXbound] [height (+ windowYbound 100)]))
-(define dialog (instantiate dialog% ("Select Game Mode")))
-(define beginpanel (new horizontal-panel% [parent dialog] [min-width 200] [min-height 100] [alignment '(center center)]))
-(new button% [parent beginpanel]
-             [label "One Player"]
-             [callback (lambda (button event)
-                         (begin (set! oneplayer #t) (send dialog show #f) (send gamecanvas focus) (gameloop)))])
-(new button% [parent beginpanel]
-             [label "Two Player"]
-             [callback (lambda (button event)
-                         (begin (set! oneplayer #f) (send dialog show #f) (send gamecanvas focus) (gameloop)))])
-(define oneplayer #t)
-
-;(define begincanvas (new begin-canvas%
- ;                   [parent frame]
-  ;                  [paint-callback
-   ;                  (lambda (canvas dc)
-    ;                   
-     ;                  
-      ;                 (send dc clear))]))
-                       
-                       
-                       
-;(send (send begincanvas get-dc) set-background (make-object color% 0 0 0 .99));155
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 (define bitmap1 (make-object bitmap% 100 100))
 (send bitmap1 load-file "greenslime.png")
 (define bitmap2 (make-object bitmap% 100 100))
 (send bitmap2 load-file "redslime.png")
 
-;background info:
-;each scoreboard outline is top-left located at (x,y) = (20 + 60 * pointval, 20) has inner diameter of 35, and boarder of 4px (not included in diameter).
-;this is repeated with the right side, except: (x,y) = (580 - 60 * pointval, 20)
-;(send dc draw-rectangle (- (/ windowXbound 2) 3) (- windowYbound 70) 6 70) was used for the center rectangle.
-(define background (make-object bitmap% 100 100))
-(send background load-file "background.png")
-(define game-canvas%
+(define my-canvas%
   (class canvas% ; The base class is canvas%
     ; Define overriding method to handle mouse events
     ;;(define/override (on-event event)
@@ -77,27 +21,24 @@
                                       (print (send event get-key-code))
                                       (display "\n")
       (cond
-        [(and (= 0 (car (Slime1 'get_vel))) (eq? (send event get-key-code) #\a ))
-         ((Slime1 'set_vel) -4 (cdr (Slime1 'get_vel)) )]
-        [(and (= 0 (car (Slime1 'get_vel))) (eq? (send event get-key-code) #\d))
-         ((Slime1 'set_vel) 4 (cdr (Slime1 'get_vel)) )]
-        [(and (not (Slime1 'get_jump)) (eq? (send event get-key-code) #\w)) ((Slime1 'set_jump) #t)] 
+        [(eq? (send event get-key-code) 'left)
+         ((Slime1 'set_vel) (if (= 0 (car (Slime1 'get_vel))) -4 0) (cdr (Slime1 'get_vel)) )]
+        [(eq? (send event get-key-code) 'right)
+         ((Slime1 'set_vel) (if (= 0 (car (Slime1 'get_vel))) 4 0) (cdr (Slime1 'get_vel)) )]
+        [(eq? (send event get-key-code) 'up)
+         (if (= (- windowYbound 68) (cdr (Slime1 'get_pos))) ((Slime1 'set_vel) (car (Slime1 'get_vel)) -13) (values))]
         [(eq? (send event get-key-code) 'release)
-         (cond ((eq? (send event get-key-release-code) 'left) ((Slime2 'set_vel) 0 (cdr (Slime2 'get_vel))) )
-               ((eq? (send event get-key-release-code) 'right) ((Slime2 'set_vel) 0 (cdr (Slime2 'get_vel))) )
-               ((eq? (send event get-key-release-code) #\a) ((Slime1 'set_vel) 0 (cdr (Slime1 'get_vel))) )
-               ((eq? (send event get-key-release-code) #\d) ((Slime1 'set_vel) 0 (cdr (Slime1 'get_vel))) )
-               ((eq? (send event get-key-release-code) #\w) ((Slime1 'set_jump) #f))
-               ((eq? (send event get-key-release-code) 'up) ((Slime2 'set_jump) #f)))]
+         (cond ((eq? (send event get-key-release-code) 'left) ((Slime1 'set_vel) 0 (cdr (Slime1 'get_vel))) )
+               ((eq? (send event get-key-release-code) 'right) ((Slime1 'set_vel) 0 (cdr (Slime1 'get_vel))) )
+               ((eq? (send event get-key-release-code) #\a) ((Slime2 'set_vel) 0 (cdr (Slime2 'get_vel))) )
+               ((eq? (send event get-key-release-code) #\d) ((Slime2 'set_vel) 0 (cdr (Slime2 'get_vel))) ))]
 
-        [(and (= 0 (car (Slime2 'get_vel))) (eq? (send event get-key-code) 'left))
-         ((Slime2 'set_vel) -4 (cdr (Slime2 'get_vel)) )]
-        [(and (= 0 (car (Slime2 'get_vel))) (eq? (send event get-key-code) 'right))
-         ((Slime2 'set_vel) 4 (cdr (Slime2 'get_vel)) )]
-        [(and (not (Slime2 'get_jump)) (eq? (send event get-key-code) 'up)) ((Slime2 'set_jump) #t)] 
-        [(eq? (send event get-key-code) #\space)
-         (begin ((Slime1 'set_pos) (/ windowXbound 4) (- windowYbound 68)) ((Slime2 'set_pos) (* 3(/ windowXbound 4)) (- windowYbound 68))
-                ((ball 'set_vel) 0 0) ((ball 'set_pos) (- (+ (car (Slime1 'get_pos)) (Slime1 'get_rad)) 18) (/ windowYbound 4)) (gameloop))]
+        [(eq? (send event get-key-code) #\a)
+         ((Slime2 'set_vel) (if (= 0 (car (Slime2 'get_vel))) -4 0) (cdr (Slime2 'get_vel)) )]
+        [(eq? (send event get-key-code) #\d)
+         ((Slime2 'set_vel) (if (= 0 (car (Slime2 'get_vel))) 4 0) (cdr (Slime2 'get_vel)) )]
+        [(eq? (send event get-key-code) #\w)
+         (if (= (- windowYbound 68) (cdr (Slime2 'get_pos))) ((Slime2 'set_vel) (car (Slime2 'get_vel)) -13) (values))]
 
       )  )
       ;(define (char-label (send event get-key-code)))
@@ -105,7 +46,7 @@
     ; Call the superclass init, passing on all init args
     (super-new)))
 
-(define gamecanvas (new game-canvas%
+(define mycanvas (new my-canvas%
                     [parent frame]
                     [paint-callback
                      (lambda (canvas dc)
@@ -116,17 +57,16 @@
                        (send dc clear)
 
 
-                       ;(send dc set-pen (make-object color% 0 0 0 .99) 3 'solid)
-                       ;(send dc set-brush (make-object color% 0 0 0 0) 'solid)
+                       (send dc set-pen (make-object color% 0 0 0 .99) 3 'solid)
+                       (send dc set-brush (make-object color% 0 0 0 0) 'solid)
                        
                        
-                       ;(send dc set-pen (make-object color% 112 138 144 .99) 1 'solid)
-                       ;(send dc set-brush (make-object color% 112 138 144 .99) 'solid)
-                       ;(send dc draw-rectangle 0 windowYbound windowXbound (+ windowYbound 100))
-                       ;(send dc set-pen "white" 1 'solid)
-                       ;(send dc set-brush "white" 'solid)
-                       ;(send dc draw-rectangle (- (/ windowXbound 2) 3) (- windowYbound 70) 6 70)
-                       (send dc draw-bitmap background 0 0)
+                       (send dc set-pen (make-object color% 112 138 144 .99) 1 'solid)
+                       (send dc set-brush (make-object color% 112 138 144 .99) 'solid)
+                       (send dc draw-rectangle 0 windowYbound windowXbound (+ windowYbound 100))
+                       (send dc set-pen "white" 1 'solid)
+                       (send dc set-brush "white" 'solid)
+                       (send dc draw-rectangle (- (/ windowXbound 2) 3) (- windowYbound 70) 6 70)
                        (send dc draw-bitmap bitmap1 (car (Slime1 'get_pos)) (cdr (Slime1 'get_pos)))
                        (send dc draw-bitmap bitmap2 (car (Slime2 'get_pos)) (cdr (Slime2 'get_pos)))
                        (send dc set-pen (make-object color% 0 0 0 .99) 9 'solid)
@@ -138,48 +78,25 @@
                              (+ (car (Slime1 'get_pos)) 114 (* -5 (/ (- (+ (car (Slime1 'get_pos)) (Slime1 'get_rad)) (+ (car (ball 'get_pos)) (ball 'get_rad))) (distance Slime1 ball))))
                              
                              (+ (cdr (Slime1 'get_pos)) 40 (* -5 (/ (- (+ (cdr (Slime1 'get_pos)) (Slime1 'get_rad)) (+ (cdr (ball 'get_pos)) (ball 'get_rad))) (distance Slime1 ball)))))
-                       (send dc draw-line
-                             (+ (car (Slime2 'get_pos)) 22 (* -5 (/ (- (+ (car (Slime2 'get_pos)) (Slime2 'get_rad)) (+ (car (ball 'get_pos)) (ball 'get_rad))) (distance Slime2 ball))))
-                             
-                             (+ (cdr (Slime2 'get_pos)) 40 (* -5 (/ (- (+ (cdr (Slime2 'get_pos)) (Slime2 'get_rad)) (+ (cdr (ball 'get_pos)) (ball 'get_rad))) (distance Slime2 ball))))
-                             
-                             (+ (car (Slime2 'get_pos)) 22 (* -5 (/ (- (+ (car (Slime2 'get_pos)) (Slime2 'get_rad)) (+ (car (ball 'get_pos)) (ball 'get_rad))) (distance Slime2 ball))))
-                             
-                             (+ (cdr (Slime2 'get_pos)) 40 (* -5 (/ (- (+ (cdr (Slime2 'get_pos)) (Slime2 'get_rad)) (+ (cdr (ball 'get_pos)) (ball 'get_rad))) (distance Slime2 ball)))))
                                 (send dc set-pen (make-object color% 255 255 0 .99) 1 'solid)
                        (send dc set-brush (make-object color% 255 255 0 .99) 'solid)
-                       (send dc draw-ellipse (car (ball 'get_pos)) (cdr (ball 'get_pos)) 36 36)
-                       (define (iter dc i score1 score2)
-                         (if (= 8 i)
-                             0
-                             (begin
-                               (if (< i score1) (send dc draw-ellipse (+ 24 (* 60 i)) 24 27 27) #f)
-                               (if (< i score2) (send dc draw-ellipse (- (- windowXbound 51)  (* 60 i)) 24 27 27) #f)
-                               (iter dc (+ i 1) score1 score2)
-                             ))
-                         )
-                       (iter dc 0 player1score player2score)
-                        ) ]))
-(send (send gamecanvas get-dc) set-background (make-object color% 0 0 0 .99));155
+                       (send dc draw-ellipse (car (ball 'get_pos)) (cdr (ball 'get_pos)) 36 36))]))
+(send (send mycanvas get-dc) set-background (make-object color% 0 0 155 .99))
 (send frame show #t)
 
 
-(define (gameloop)
+(define (loop)
   (Slime1 'move) ;moves the slime based on velocity and acceleration
   (Slime2 'move) ;moves the slime based on velocity and acceleration
   ;(print (distance Slime1 ball))
   ((ball 'collision) Slime1)
   ((ball 'collision) Slime2)
   (ball 'move)
-  (send gamecanvas on-paint)
-  (sleep/yield 0.015)
+  (ball 'wall)
+  (send mycanvas on-paint)
+  (sleep/yield 0.002)
   (if (equal? (cdr (ball 'get_pos)) (- windowYbound 18))
-      (if (< ( + (ball 'get_rad) (car (ball 'get_pos))) (/ windowXbound 2) )
-          (begin (set! player2score (+ 1 player2score)) (send (send gamecanvas get-dc) draw-text "Player 2 scores!" 0 0))
-          (begin (set! player1score (+ 1 player1score)) (send (send gamecanvas get-dc) draw-text "Player 1 scores!" 0 0)))
-      (gameloop)))
+      'done
+      (loop)))
 
-(send dialog show #t)
-
-
-;;main
+(loop)

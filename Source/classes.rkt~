@@ -8,6 +8,10 @@
 (define windowXbound 1000)
 (define windowYbound 500)
 (define slimebot (- windowYbound 68))
+(define bitmap1 (make-object bitmap% 100 100))
+(send bitmap1 load-file "greenslime.png")
+(define bitmap2 (make-object bitmap% 100 100))
+(send bitmap2 load-file "redslime.png")
 (define dx 1000) ;temporary
 (define dy 1000) ;temporary
 

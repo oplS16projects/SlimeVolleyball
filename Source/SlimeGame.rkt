@@ -1,6 +1,7 @@
 #lang racket
 (require racket/gui/base)
 (require (file "classes.rkt"))
+;(require (file "SlimeAi.rkt"))
 (define player1score 0)
 (define player2score 0)
 (define lastToscore #f) ;false if player 1, true if player 2
@@ -136,6 +137,9 @@
   (ball 'net)
   (send gamecanvas on-paint)
   (sleep/yield 0.015)
+  (if oneplayer
+      (Ai Slime2)
+      'done)
   (if (equal? (cdr (ball 'get_pos)) (- windowYbound 18))
       (begin 
         (if (< ( + (ball 'get_rad) (car (ball 'get_pos))) (/ windowXbound 2) )

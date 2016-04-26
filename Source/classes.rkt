@@ -100,3 +100,55 @@
                             #f))
 
 (define ball (make_object (- (+ (car (Slime1 'get_pos)) (Slime1 'get_rad)) 18) (/ windowYbound 4) 0 0 18 0 windowXbound (- windowYbound 18) #f))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+(define (calcXWhenBallBelow ylimit)
+  (define temp (make_object (car (ball 'get_pos)) (cdr (ball 'get_pos)) (car (ball 'get_vel)) (cdr (ball 'get_vel)) (ball 'get_rad) 0 windowXbound (- windowYbound 18) #f))
+  (define (helper count bll ylim)
+    (bll 'move)
+    ;(bll 'collisions)
+    (bll 'net)
+    (bll 'wall)
+    (if (equal? count 0)
+         (car (bll 'get_pos))
+         (helper (- count 1) bll ylim)))
+  (+ (ball 'get_rad)
+     (helper (countTillBelow (cdr (ball 'get_pos)) (cdr (ball 'get_vel)) ylimit) temp ylimit)))
+        
+(define (countTillBelow y vy limit)
+  (define (helper count y vy limit)
+    ;(display y)
+    ;(display limit)
+    (if (> y limit)
+        count
+        (helper (+ 1 count) (+ y (+ vy 1)) (+ vy 1) limit)))
+  (helper 0 y vy limit))
+
+
+(define (Ai slime)
+  ((slime 'set_jump) #f)
+  (if (equal? (cdr (ball 'get_pos)) (- windowYbound 18))
+      'done
+      (let ((landing (calcXWhenBallBelow (- windowYbound 68)))) 
+        (if (> landing (/ windowXbound 2))
+            (cond
+              ((and (< (+ (car (slime 'get_pos)) (slime 'get_rad) ) landing) (> (+ (car (slime 'get_pos)) (slime 'get_rad) -45) landing) (> (cdr (ball 'get_pos)) (* windowYbound 3/4))) ((slime 'set_jump) #t))
+                ((< (+ (car (slime 'get_pos)) (slime 'get_rad)) landing) ((slime 'set_vel) 6 (cdr (slime 'get_vel))))
+                ((> (+ (car (slime 'get_pos)) (slime 'get_rad) -45) landing) ((slime 'set_vel) -6 (cdr (slime 'get_vel)))))
+            'done))))
+
+
+

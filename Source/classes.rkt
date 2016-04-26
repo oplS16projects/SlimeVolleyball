@@ -61,11 +61,21 @@
                                       (set! vel_x (- vel_x))
                                       (set! pos_x (- right_bound 36)))
                                     (values))))
-          ((eq? op 'net) (if (and (> pos_y (- slimebot 68)) (and (< pos_x (+ (+ (/ windowXbound 2) 3) radius)) (> pos_x (- (- (/ windowXbound 2) 3) radius))))
-                             (begin
-                                (set! vel_x (- vel_x))
-                                (set! pos_x (+ pos_x vel_x)))
-                             (values)))
+          ((eq? op 'net) (if (and (or (and (< pos_x (- (/ windowXbound 2) 1))
+                                            (> (+ pos_x vel_x) (+ (/ windowXbound 2) 1)))
+                                       (and (> pos_x (+ (/ windowXbound 2) 1))
+                                            (< (+ pos_x vel_x) (- (/ windowXbound 2) 1))))
+                                   (>= (+ pos_y vel_y) (- slimebot 70))) 
+                              (begin
+                                (set! pos_x (/ windowXbound 2))
+                                (set! vel_x (- vel_x)))
+                              (if (and (and (or (< pos_x (- (/ windowXbound 2) 1))
+                                           (> pos_x (+ (/ windowXbound 2) 1)))
+                                       (and (>= (+ pos_x vel_x) (- (/ windowXbound 2) 1))
+                                            (<= (+ pos_x vel_x) (+ (/ windowXbound 2) 1))))
+                                       (eqv? (+ pos_y vel_y) (- slimebot 70)))
+                                  (set! vel_y (- vel_y))
+                                  (values))))
                                 
                              
           (else (error "Unknown op: " op))))

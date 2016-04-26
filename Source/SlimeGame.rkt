@@ -57,7 +57,7 @@
          ((Slime2 'set_vel) 6 (cdr (Slime2 'get_vel)) )]
         [(and (not (Slime2 'get_jump)) (eq? (send event get-key-code) 'up)) ((Slime2 'set_jump) #t)] 
         [(and (= (cdr (ball 'get_pos)) (- windowYbound 18)) (eq? (send event get-key-code) #\space))
-         (begin ((Slime1 'set_pos) (/ windowXbound 4) (- windowYbound 68)) ((Slime2 'set_pos) (* 3(/ windowXbound 4)) (- windowYbound 68))
+         (begin ((Slime1 'set_pos) (- (/ windowXbound 4) 68) (- windowYbound 68)) ((Slime2 'set_pos) (- (* 3(/ windowXbound 4)) 68) (- windowYbound 68))
                 ((ball 'set_vel) 0 0) ((ball 'set_pos) (- (+ (car ((if lastToscore Slime2 Slime1) 'get_pos)) ((if lastToscore Slime2 Slime1) 'get_rad)) 18) (/ windowYbound 4)) (gameloop))]
 
       )  )

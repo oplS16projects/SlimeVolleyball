@@ -135,7 +135,7 @@
   (ball 'wall)
   (ball 'net)
   (send gamecanvas on-paint)
-  (sleep/yield 0.015)
+  (sleep/yield 0.01)
   (if (equal? (cdr (ball 'get_pos)) (- windowYbound 18))
       (begin 
         (if (< ( + (ball 'get_rad) (car (ball 'get_pos))) (/ windowXbound 2) )

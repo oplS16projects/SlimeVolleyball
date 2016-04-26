@@ -61,7 +61,7 @@
                                       (set! vel_x (- vel_x))
                                       (set! pos_x (- right_bound 36)))
                                     (values))))
-          ((eq? op 'net) (if (and (> pos_y (- windowYbound 70)) (and (< pos_x (+ (+ (/ windowXbound 2) 3) radius)) (> pos_x (- (- (/ windowXbound 2) 3) radius))))
+          ((eq? op 'net) (if (and (> pos_y (- slimebot 68)) (and (< pos_x (+ (+ (/ windowXbound 2) 3) radius)) (> pos_x (- (- (/ windowXbound 2) 3) radius))))
                              (begin
                                 (set! vel_x (- vel_x))
                                 (set! pos_x (+ pos_x vel_x)))

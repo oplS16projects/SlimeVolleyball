@@ -45,12 +45,12 @@
                                    (if (>= y bottom_bound) (set! pos_y bottom_bound) (values ))))
                              (+ pos_x vel_x) (+ pos_y vel_y)))
          
-                            (if (< pos_y bottom_bound) (set! vel_y (+ vel_y 0.8))  (begin (set! pos_y bottom_bound) (if jump (set! vel_y -20) (set! vel_y 0))
+                            (if (< pos_y bottom_bound) (set! vel_y (+ vel_y 0.8))  (begin (set! pos_y bottom_bound) (if jump (set! vel_y -18) (set! vel_y 0))
                             ))) ;gravity
 
           ((eq? op 'collision) (lambda (Slime)  (if (<= (distance Slime ball) (+ radius (Slime 'get_rad)))
-                                                     (begin (set! vel_y (* -20 (/ (- (+ (cdr (Slime 'get_pos)) (Slime 'get_rad)) (+ (cdr (ball 'get_pos)) (ball 'get_rad))) (distance Slime ball))))
-                                                            (set! vel_x (* -20 (/ (- (+ (car (Slime 'get_pos)) (Slime 'get_rad)) (+ (car (ball 'get_pos)) (ball 'get_rad))) (distance Slime ball)))))
+                                                     (begin (set! vel_y (* -18 (/ (- (+ (cdr (Slime 'get_pos)) (Slime 'get_rad)) (+ (cdr (ball 'get_pos)) (ball 'get_rad))) (distance Slime ball))))
+                                                            (set! vel_x (* -18 (/ (- (+ (car (Slime 'get_pos)) (Slime 'get_rad)) (+ (car (ball 'get_pos)) (ball 'get_rad))) (distance Slime ball)))))
                                                      #f)))
           ((eq? op 'wall) (if (< (+ pos_x vel_x) left_bound)
                               (begin
@@ -61,6 +61,13 @@
                                       (set! vel_x (- vel_x))
                                       (set! pos_x (- right_bound 36)))
                                     (values))))
+          ((eq? op 'net) (if (and (> pos_y (- windowYbound 70)) (and (< pos_x (+ (+ (/ windowXbound 2) 3) radius)) (> pos_x (- (- (/ windowXbound 2) 3) radius))))
+                             (begin
+                                (set! vel_x (- vel_x))
+                                (set! pos_x (+ pos_x vel_x)))
+                             (values)))
+                                
+                             
           (else (error "Unknown op: " op))))
   dispatch)
 

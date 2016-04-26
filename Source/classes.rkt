@@ -145,7 +145,7 @@
       (let ((landing (calcXWhenBallBelow (- windowYbound 68)))) 
         (if (> landing (/ windowXbound 2))
             (cond
-              ((and (< (+ (car (slime 'get_pos)) (slime 'get_rad) ) landing) (> (+ (car (slime 'get_pos)) (slime 'get_rad) -45) landing) (> (cdr (ball 'get_pos)) (* windowYbound 3/4))) ((slime 'set_jump) #t))
+              ((and (< (+ (car (slime 'get_pos)) (slime 'get_rad) ) landing) (> (+ (car (slime 'get_pos)) (slime 'get_rad) -45) landing)) (begin ((slime 'set_jump) #t) ((slime 'set_vel (car (slime 'get_vel) -18)))))
                 ((< (+ (car (slime 'get_pos)) (slime 'get_rad)) landing) ((slime 'set_vel) 6 (cdr (slime 'get_vel))))
                 ((> (+ (car (slime 'get_pos)) (slime 'get_rad) -45) landing) ((slime 'set_vel) -6 (cdr (slime 'get_vel)))))
             'done))))

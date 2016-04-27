@@ -41,12 +41,20 @@
                                    (set! pos_x x)
                                    (values));does nothing
                                (if  (< y bottom_bound)
-                                   (set! pos_y y)
-                                   (if (>= y bottom_bound) (set! pos_y bottom_bound) (values ))))
-                             (+ pos_x vel_x) (+ pos_y vel_y)))
-         
-                            (if (< pos_y bottom_bound) (set! vel_y (+ vel_y 0.8))  (begin (set! pos_y bottom_bound) (if jump (set! vel_y -18) (set! vel_y 0))
-                            ))) ;gravity
+                                    (set! pos_y y)
+                                    (if (>= y bottom_bound)
+                                        (set! pos_y bottom_bound)
+                                        (values ))))
+                             (+ pos_x vel_x) (+ pos_y vel_y))
+                            
+                            (if (< pos_y bottom_bound)
+                                (set! vel_y (+ vel_y 0.8)) ;gravity
+                                (begin
+                                  (set! pos_y bottom_bound)
+                                  (if jump
+                                      (set! vel_y -18)
+                                      (set! vel_y 0))))
+                            ))
 
           ((eq? op 'collision) (lambda (Slime)  (if (<= (distance Slime ball) (+ radius (Slime 'get_rad)))
                                                      (begin (set! vel_y (* -18 (/ (- (+ (cdr (Slime 'get_pos)) (Slime 'get_rad)) (+ (cdr (ball 'get_pos)) (ball 'get_rad))) (distance Slime ball))))

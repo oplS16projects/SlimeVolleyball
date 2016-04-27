@@ -47,27 +47,11 @@ You need to have racket installed. Look here for further details -> https://docs
 You can find the full code repository here:
 https://github.com/oplS16projects/SlimeVolleyball
 
-In the SlimeVolleyball directory, open /Source/SlimeGame.rkt using racket or it's gui interace Drracket.
-On linux, this can be achieved easily by running
-```
-racket SlimeGame.rkt
-```
-in the Source directory.
+Once you have downloaded and extracted the repository from github
 
-###Updates
-As of Wed Apr 26:
-A simplistic Ai was developed. Prompt for one or two player mode was added upon opening the game. Movement is working well. Wall, net, and slime collisions with the ball are all fully functional. Scorekeeping was added, along with pausing after ball hits the ground, and resuming using spacebar. Winner and point winner notifications were added alongside scorekeeping.
+On windows:
+Open the source folder and run SlimeGame.rkt using racket or it's gui interface Drracket. 
+On linux: 
+Navigate to the source directory and run the command  ``` racket SlimeGame.rkt```
 
-As of Fri Apr 22:
-Working out the final kinks in movement. Stutter has been fixed, and movement is starting to feel like the original game. 
-We have added menu functionality for 1 or 2 player mode, and will hopefully have time to add the AI so that 1 player can
-acutally be played. The scoreboard is functional, and a small message is currently played describng who earned a point, 
-and will be enlargedand centered soon. The collisions are almost done, with the only remaining ones to be the walls and net.We have added a single bitmap background to reduce calls to draw as much as possible. The slime's eyes were added earlier in the week, and are fully operatonal.
-
-As of Fri Apr 15:
-We have movement mostly down, and just need to figue out why it's stuttering when the left and right keys are held.
-Game is currently two player, with WASD functioning for player two.
-Gravity is functional, and ball Y directional movement and collisions are working.
-Graphics are in the works, and we have slime templates now so it is fairly simply to create new ones. The main challenge is keeping screen updates to a minimum, as the base/gui begins to cause flicker.
-Hopefully collisions and the kinks with the gui and keyboard sutter will be solved soon, and we can begin on Ai and scorekeeping/gameplay.
 

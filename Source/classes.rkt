@@ -154,6 +154,8 @@
               ((> (+ (car (slime 'get_pos)) (slime 'get_rad) -45) landing) ((slime 'set_vel) -6 (cdr (slime 'get_vel))))
               (else (begin ((slime 'set_vel) 0 (cdr (slime 'get_vel))) (if (> (cdr (ball 'get_pos)) (- windowYbound 100)) ((slime 'set_jump) #t) 'done))))
             (cond
+              ((and (< (+ (car (slime 'get_pos)) (slime 'get_rad)) (* windowXbound 3/4)) (> (+ (car (slime 'get_pos)) (slime 'get_rad) (slime 'get_rad)) (* windowXbound 3/4)))
+               (begin (display "here") ((slime 'set_vel) 0 (cdr (slime 'get_vel)))))
               ((< (+ (car (slime 'get_pos)) (slime 'get_rad)) (* windowXbound 3/4)) ((slime 'set_vel) 6 (cdr (slime 'get_vel))))
               ((> (+ (car (slime 'get_pos)) (slime 'get_rad) (slime 'get_rad)) (* windowXbound 3/4))) ((slime 'set_vel) -6 (cdr (slime 'get_vel)))
               (else ((slime 'set_vel) 0 (cdr (slime 'get_vel)))))))))

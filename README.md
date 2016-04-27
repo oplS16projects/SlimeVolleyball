@@ -1,4 +1,4 @@
-# FP7-Slime Volleyball
+#Slime Volleyball
 
 ##Authors
 Cameron Oliver

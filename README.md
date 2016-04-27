@@ -10,8 +10,8 @@ The classic browser game Slime Volleyball has been implemented in your favorite 
 
 ##Screenshot
 
-![alt tag](https://raw.githubusercontent.com/C4m0/FP7-webpage/master/Gamplay.jpg)
-![alt tag](https://raw.githubusercontent.com/C4m0/FP7-webpage/master/Architecture.jpg)
+![alt tag](https://raw.githubusercontent.com/oplS16projects/SlimeVolleyball/master/Gamplay.jpg)
+![alt tag](https://raw.githubusercontent.com/oplS16projects/SlimeVolleyball/master/Final_Architecture.jpg)
 
 ##Concepts Demonstrated
 Identify the OPL concepts demonstrated in your project. Be brief. A simple list and example is sufficient. 

@@ -51,6 +51,7 @@ Once you have downloaded and extracted the repository from github
 
 On windows:
 Open the source folder and run SlimeGame.rkt using racket or it's gui interface Drracket. 
+
 On linux: 
 Navigate to the source directory and run the command  ``` racket SlimeGame.rkt```
 

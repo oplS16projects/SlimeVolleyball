@@ -46,7 +46,8 @@ This conditional statement houses the basic logic of the AI. By calculating wher
 
 #####You can find the full code repository here: https://github.com/oplS16projects/SlimeVolleyball
 
-#####*Once you have downloaded and extracted the repository from github:*
+
+######Once you have downloaded and extracted the repository from github:
 
 
 #####On windows:

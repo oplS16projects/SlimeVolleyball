@@ -23,12 +23,33 @@ Identify the OPL concepts demonstrated in your project. Be brief. A simple list 
 
 ##Favorite Scheme Expressions
 ####Cam
-This short bit of code lets you create the Racket equivalent of header files and source files.  This is extremely useful for
-keeping organized on a big project like this, it was one of the first things I figured out how to do when we started the project
-and I am glad because it makes the code a lot easier to look through.
+Movement of the ball and slimes is done by setting the updating the position according to the x and y velocity of each object.  The object velocities can be changed in several ways: slime velocities can be modified by user input (or by the AI); the ball's velocity can be modified upon collision with either the slimes, the net, or the left/right walls (this collision modification is carried out by 3 separate functions, the 'collision function for limes, the 'wall function for walls, and the 'net function for the net); and finally the slimes and the ball have their velocities updated each frame by a constant acceleration downward.  This move function is responsible for:
+1. Checking that the new position is within the object boundaries (for example the left side of the court for slime 1)
+2. If 1==true, setting the new position
+3. If the object is not already on the ground, updating the velocity
+
+Although it is not hugely complicated it is very much at the core of our game's functionality, and since I love simple code with a lot of functionality almost as much as I love absurdly complex code with virtually no functionality (which fortunately for your sake we haven't got any of in this project); I am declaring this my Favorite Expression.
 ```scheme
-(provide (all-defined-out))    ;This is in classes.rkt
-(require (file "classes.rkt")) ;and this is in SlimeGame.rkt
+((eq? op 'move) (begin
+                            ((lambda (x y)
+                               (if (and (> x left_bound) (< x right_bound))
+                                   (set! pos_x x)
+                                   (values));does nothing
+                               (if  (< y bottom_bound)
+                                    (set! pos_y y)
+                                    (if (>= y bottom_bound)
+                                        (set! pos_y bottom_bound)
+                                        (values ))))
+                             (+ pos_x vel_x) (+ pos_y vel_y))
+                            
+                            (if (< pos_y bottom_bound)
+                                (set! vel_y (+ vel_y 0.8)) ;gravity
+                                (begin
+                                  (set! pos_y bottom_bound)
+                                  (if jump
+                                      (set! vel_y -18)
+                                      (set! vel_y 0))))
+                            ))
 ```
 ####Kenny
 This conditional statement houses the basic logic of the AI. By calculating where the ball will land (landing) and the comparing it to where the slime is, the direction the slime should move is determined. The AI also determines when to jump if it is already under the ball. It was difficult to figure out at first, but once i started to think about the thought process one goes through when playing, it seemed relatively simple.

@@ -136,7 +136,7 @@
   (ball 'wall)
   (ball 'net)
   (send gamecanvas on-paint)
-  (sleep/yield 0.015)
+  (sleep/yield 0.015);
   (if oneplayer
       (Ai Slime2)
       'done)

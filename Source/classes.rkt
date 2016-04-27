@@ -123,7 +123,7 @@
     ;(bll 'collisions)
     (bll 'net)
     (bll 'wall)
-    (if (equal? count 0)
+    (if (<= count 0)
          (car (bll 'get_pos))
          (helper (- count 1) bll ylim)))
   (+ (ball 'get_rad)
@@ -140,16 +140,23 @@
 
 
 (define (Ai slime)
-  ((slime 'set_jump) #f)
+  (if (slime 'get_jump)
+      ((slime 'set_jump) #f)
+      'done
+      )
   (if (equal? (cdr (ball 'get_pos)) (- windowYbound 18))
       'done
       (let ((landing (calcXWhenBallBelow (- windowYbound 68)))) 
         (if (> landing (/ windowXbound 2))
             (cond
-              ((and (< (+ (car (slime 'get_pos)) (slime 'get_rad) ) landing) (> (+ (car (slime 'get_pos)) (slime 'get_rad) -45) landing)) (begin ((slime 'set_jump) #t) ((slime 'set_vel (car (slime 'get_vel) -18)))))
-                ((< (+ (car (slime 'get_pos)) (slime 'get_rad)) landing) ((slime 'set_vel) 6 (cdr (slime 'get_vel))))
-                ((> (+ (car (slime 'get_pos)) (slime 'get_rad) -45) landing) ((slime 'set_vel) -6 (cdr (slime 'get_vel)))))
-            'done))))
+              ((and (< (+ (car (slime 'get_pos)) (slime 'get_rad) ) landing) (> (+ (car (slime 'get_pos)) (slime 'get_rad) -45) landing)) (begin (display "here") ((slime 'set_jump) #t) ((slime 'set_vel (car (slime 'get_vel) -18)))))
+              ((< (+ (car (slime 'get_pos)) (slime 'get_rad) -5) landing) ((slime 'set_vel) 6 (cdr (slime 'get_vel))))
+              ((> (+ (car (slime 'get_pos)) (slime 'get_rad) -45) landing) ((slime 'set_vel) -6 (cdr (slime 'get_vel))))
+              (else (begin ((slime 'set_vel) 0 (cdr (slime 'get_vel))) (if (> (cdr (ball 'get_pos)) (- windowYbound 100)) ((slime 'set_jump) #t) 'done))))
+            (cond
+              ((< (+ (car (slime 'get_pos)) (slime 'get_rad)) (* windowXbound 3/4)) ((slime 'set_vel) 6 (cdr (slime 'get_vel))))
+              ((> (+ (car (slime 'get_pos)) (slime 'get_rad) (slime 'get_rad)) (* windowXbound 3/4))) ((slime 'set_vel) -6 (cdr (slime 'get_vel)))
+              (else ((slime 'set_vel) 0 (cdr (slime 'get_vel)))))))))
 
 
 

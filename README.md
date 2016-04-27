@@ -44,8 +44,7 @@ This conditional statement houses the basic logic of the AI. By calculating wher
 #How to Download and Run
 *You need to have racket installed.* Look here for further details -> https://docs.racket-lang.org/getting-started/
 
-#####You can find the full code repository here:
-https://github.com/oplS16projects/SlimeVolleyball
+#####You can find the full code repository here: https://github.com/oplS16projects/SlimeVolleyball
 
 ####Once you have downloaded and extracted the repository from github:
 
